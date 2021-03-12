@@ -7,48 +7,33 @@ import rigoImage from "../../img/rigo-baby.jpg";
 //create your first component
 
 export function Home() {
-	const [todoList, setList] = useState(["Add Task"]);
-	const [todoInput, setInput] = useState("");
-	let listElement;
+	const [todoList, setList] = useState(["No tasks. Add one!"]);
 	let listCopy = [];
 
 	const handleRemoveItem = e => {
 		const liElement = e.target;
 		const index = liElement.parentElement.getAttribute("data-index");
-		//const elementText = liElement.innerText;
 
 		listCopy = todoList;
 		listCopy = todoList.splice(index, 1);
 		setList(todoList.filter(item => item.name !== listCopy));
-		console.log(todoList.length);
-		/*if (todoList.length > 1) {
-			liElement
-				.getElementsByTagName("i")[0]
-				.setAttribute("style", "display: inline");
-		}*/
 	};
 	const handleMouserOver = e => {
-		const liElement = e.target; //.getElementsByTagName("i")[0];
-		const elementClass = liElement.className;
-		if (
-			elementClass !== "fa fa-trash" &&
-			liElement.innerText !== "Add Task"
-		) {
-			liElement
-				.getElementsByTagName("i")[0]
-				.setAttribute("style", "display: inline");
-		}
-		console.log(liElement);
+		const liElement = e.target;
+		liElement.getElementsByTagName("i")[0].nextSibling.data !==
+		"No tasks. Add one!"
+			? liElement
+					.getElementsByTagName("i")[0]
+					.setAttribute("style", "display: inline")
+			: false;
+		//liElement.setAttribute("style", "display: none");
+		//console.log(liElement.getElementsByTagName("i")[0].nextSibling.setAttribute(data));
 	};
 	const handleMouserOut = e => {
-		const liElement = e.target; //.getElementsByTagName("i")[0];
-		const elementClass = liElement.className;
-		if (elementClass !== "fa fa-trash") {
-			liElement
-				.getElementsByTagName("i")[0]
-				.setAttribute("style", "display: none");
-		}
-		console.log(liElement);
+		const liElement = e.target;
+		liElement
+			.getElementsByTagName("i")[0]
+			.setAttribute("style", "display: none");
 	};
 
 	return (
@@ -73,14 +58,14 @@ export function Home() {
 							key={index}
 							data-index={index}
 							className="list-group-item"
-							//style={{ display: "inline" }}
 							style={
-								todoList.length > 1 && index == 0
+								todoList.length > 1 &&
+								todoList[index] === "No tasks. Add one!"
 									? { display: "none" }
 									: { display: "inline" }
 							}
-							onMouseOver={handleMouserOver}
-							onMouseOut={handleMouserOut}>
+							onMouseEnter={handleMouserOver}
+							onMouseLeave={handleMouserOut}>
 							<i
 								className="fa fa-trash"
 								style={{ display: "none" }}
